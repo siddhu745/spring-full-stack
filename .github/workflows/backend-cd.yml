@@ -31,7 +31,7 @@ jobs:
     steps:
       - name: Send Slack Message
         run: >
-          curl -X POST -H 'Content-type: application/json' 
+          curl && curl -X POST -H 'Content-type: application/json' 
           --data '
           {"text":"Deployment Started :progress_bar: :fingerscrossed:"}
           ' 
@@ -52,7 +52,7 @@ jobs:
         run: echo "BUILD_NUMBER=$(date '+%d.%m.%Y.%H.%M.%S')" >> $GITHUB_OUTPUT
       - name: Send Slack Message
         run: >
-          curl -X POST -H 'Content-type: application/json' 
+          curl && curl -X POST -H 'Content-type: application/json' 
           --data '
           {"text":":maven: Building with maven"}
           ' 
@@ -61,7 +61,7 @@ jobs:
         run: mvn -ntp -B verify -D docker.image.tag=${{steps.build-number.outputs.BUILD_NUMBER}} jib:build
       - name: Send Slack Message
         run: >
-          curl -X POST -H 'Content-type: application/json' 
+          curl && curl -X POST -H 'Content-type: application/json' 
           --data '
           {"text":":docker: Image tag: ${{steps.build-number.outputs.BUILD_NUMBER}} 
           pushed to https://hub.docker.com/repository/docker/siddhu745/spring-boot-practice-api"}
@@ -76,7 +76,7 @@ jobs:
           cat Dockerrun.aws.json
       - name: Send Slack Message
         run: >
-          curl -X POST -H 'Content-type: application/json' 
+          curl && curl -X POST -H 'Content-type: application/json' 
           --data '
           {"text":":aws: Starting deployment to Elastic Beanstalk"}
           ' 
@@ -94,7 +94,7 @@ jobs:
           deployment_package: backend/Dockerrun.aws.json
       - name: Send Slack Message
         run: >
-          curl -X POST -H 'Content-type: application/json' 
+          curl && curl -X POST -H 'Content-type: application/json' 
           --data '
           {"text":":githubloading: Committing to https://github.com/siddhu745/spring-full-stack"}
           ' 
@@ -108,7 +108,7 @@ jobs:
           git push
       - name: Send Slack Message
         run: >
-          curl -X POST -H 'Content-type: application/json' 
+          curl && curl -X POST -H 'Content-type: application/json' 
           --data '
           {"text":"Deployment and commit completed :github_check_mark: :party_blob: - http://foo4-env.eba-ak5haxmk.ap-south-1.elasticbeanstalk.com/api/v1/customers"}
           ' 
@@ -116,7 +116,7 @@ jobs:
       - name: Send Slack Message
         if: always()
         run: >
-          curl -X POST -H 'Content-type: application/json' 
+          curl && curl -X POST -H 'Content-type: application/json' 
           --data '
           {"text":"Job Status ${{ job.status }}"}
           ' 
